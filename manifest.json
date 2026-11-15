@@ -1,0 +1,9 @@
+{
+  "name": "Smart Exam Maker",
+  "short_name": "Exam Maker",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#14213d",
+  "description": "Create draft practice question papers from your chapter notes."
+}

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#14213d"><meta name="description" content="Create structured practice question papers from your chapter notes.">
+  <link rel="manifest" href="manifest.json"><title>Smart Exam Maker</title>
+  <style>
+    :root{--navy:#14213d;--blue:#2563eb;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--bg:#f4f7fb;--white:#fff}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    header{background:var(--navy);color:white;padding:22px max(20px,calc((100% - 1100px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .brand{font-size:21px;font-weight:800;letter-spacing:.2px}.brand small{display:block;font-size:12px;font-weight:400;color:#cbd5e1}
+    button,select,input,textarea{font:inherit}button{border:0;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer}.primary{background:var(--blue);color:white}.secondary{background:#eaf0ff;color:#1d4ed8}.ghost{background:#ffffff1c;color:white;border:1px solid #ffffff45}
+    main{max-width:1100px;margin:26px auto;padding:0 18px;display:grid;grid-template-columns:minmax(280px,390px) 1fr;gap:20px}
+    .panel{background:white;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 5px 18px #0f172a08}.panel h2{font-size:18px;margin:0 0 5px}.hint{color:var(--muted);font-size:13px;margin:0 0 18px}
+    label{display:block;font-weight:650;font-size:13px;margin:13px 0 6px}input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:10px 11px;background:white;color:var(--ink)}textarea{min-height:190px;resize:vertical}input:focus,select:focus,textarea:focus{outline:2px solid #bfdbfe;border-color:var(--blue)}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.checks{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0}.checks label{font-weight:500;margin:0;display:flex;align-items:center;gap:6px}.checks input{width:auto}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.actions button{flex:1}.paper{min-height:480px}.paperhead{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:16px}.paperhead h2{font-size:22px;margin:0}.paperhead p{margin:4px 0;color:var(--muted)}.paper-meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;margin:12px 0}.empty{color:var(--muted);text-align:center;padding:90px 20px}.section-title{font-weight:800;margin:20px 0 8px;border-bottom:1px solid var(--line);padding-bottom:6px}.q{margin:10px 0;break-inside:avoid}.qnum{font-weight:750;margin-right:6px}.marks{float:right;color:var(--muted);font-size:13px}.answerline{border-bottom:1px dashed #cbd5e1;height:22px;margin-top:5px}.notice{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:11px 13px;color:#9a3412;font-size:13px;margin-top:14px}
+    footer{text-align:center;color:var(--muted);font-size:12px;padding:18px}
+    @media(max-width:800px){main{grid-template-columns:1fr;margin:16px auto}header{padding:18px}.paper{min-height:300px}}
+    @media print{body{background:white}.no-print,header,main>.panel:first-child,footer{display:none!important}main{display:block;margin:0;padding:0;max-width:none}.panel{border:0;box-shadow:none;padding:0}.paper{min-height:0}.paperhead h2{font-size:20px} @page{size:A4;margin:18mm}}
+  </style>
+</head>
+<body>
+<header><div class="brand">✦ SMART EXAM MAKER<small>Build better practice papers</small></div><button class="ghost" id="installBtn" hidden>Install app</button></header>
+<main>
+  <section class="panel no-print">
+    <h2>Paper setup / प्रश्नपत्र सेटअप</h2><p class="hint">Enter chapter details and paste your own notes or chapter text.</p>
+    <div class="two"><div><label for="language">Paper language / प्रश्नपत्र की भाषा</label><select id="language"><option value="en">English</option><option value="hi">हिन्दी</option></select></div><div><label for="board">Board / बोर्ड</label><select id="board"><option>CBSE</option><option>RBSE</option><option>ICSE / CISCE</option><option>State Board</option><option>Other / अन्य</option></select></div><div><label for="className">Class / कक्षा</label><select id="className"></select></div></div>
+    <div class="two"><div><label for="subject">Subject / विषय</label><input id="subject" placeholder="e.g. Biology / जीव विज्ञान"></div><div><label for="chapter">Chapter / अध्याय</label><input id="chapter" placeholder="Chapter name"></div></div>
+    <div class="two"><div><label for="paperTitle">Exam title / परीक्षा</label><input id="paperTitle" value="Practice Question Paper"></div><div><label for="duration">Time / समय</label><input id="duration" value="1 Hour"></div></div>
+    <div class="two"><div><label for="totalMarks">Total marks / कुल अंक</label><input id="totalMarks" type="number" min="1" max="200" value="20"></div><div><label for="difficulty">Difficulty / कठिनाई</label><select id="difficulty"><option>Mixed</option><option>Easy</option><option>Medium</option><option>Hard</option></select></div></div>
+    <label>Question types / प्रश्नों के प्रकार</label><div class="checks"><label><input type="checkbox" id="mcq" checked> MCQ</label><label><input type="checkbox" id="short" checked> Short</label><label><input type="checkbox" id="long" checked> Long</label><label><input type="checkbox" id="fill"> Fill blanks</label></div>
+    <label for="content">Chapter notes / अध्याय की सामग्री</label><textarea id="content" placeholder="Paste your chapter notes or text here. You can write in Hindi or English.\n\nअपनी किताब के नोट्स या अध्याय की सामग्री यहाँ पेस्ट करें।"></textarea>
+    <div class="actions"><button class="primary" id="generate">Generate paper</button><button class="secondary" id="sample">Try sample</button><button class="secondary" id="printPaper">Print / Save PDF</button></div>
+    <div class="notice">Prototype note: This first version creates draft practice questions from the text you provide. It is not an official board-paper generator. Always review questions, answers and marks before using them in an exam.</div>
+  </section>
+  <section class="panel paper" id="paperArea"><div class="empty">Your question paper will appear here.<br>आपका प्रश्नपत्र यहाँ दिखाई देगा।</div></section>
+</main>
+<footer>Smart Exam Maker · Early prototype · Review generated questions before use</footer>
+<script>
+const $=id=>document.getElementById(id);for(let i=1;i<=12;i++)$('className').add(new Option('Class '+i,'Class '+i));
+const sample='Photosynthesis is the process by which green plants prepare their own food using sunlight, carbon dioxide and water. Chlorophyll is the green pigment present in leaves. The roots absorb water and minerals from the soil. Xylem transports water from roots to other parts of the plant. Stomata are tiny pores on the surface of leaves that help in gas exchange. The food prepared by plants is commonly stored as starch.';
+$('sample').onclick=()=>{$('subject').value='Biology';$('chapter').value='Nutrition in Plants';$('content').value=sample};
+function sentencesFrom(text){return text.replace(/\n+/g,' ').split(/(?<=[.!?।])\s+/).map(s=>s.trim()).filter(s=>s.length>25)}
+function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function makeQuestion(s,type,lang){let clean=s.replace(/[.!?।]+$/,'');if(lang==='hi'){if(type==='mcq')return `निम्नलिखित कथन के आधार पर सही विकल्प चुनिए: “${clean.slice(0,95)}${clean.length>95?'…':''}”`;if(type==='fill'){let words=clean.split(/\s+/);let idx=words.findIndex(w=>w.length>3);if(idx<0)idx=Math.floor(words.length/2);words[idx]='________';return `रिक्त स्थान भरिए: ${words.join(' ')}।`}if(type==='short')return `संक्षेप में उत्तर दीजिए: ${clean}।`;return `विस्तार से समझाइए: ${clean}।`}if(type==='mcq'){let words=clean.split(/\s+/);let key=words.find(w=>w.length>6&&!/^(Photosynthesis|Chlorophyll)$/i.test(w))||words[Math.min(2,words.length-1)];return `Which statement is related to: “${clean.slice(0,95)}${clean.length>95?'…':''}”?`;}
+if(type==='fill'){let words=clean.split(/\s+/);let idx=words.findIndex(w=>w.length>5);if(idx<0)idx=Math.floor(words.length/2);words[idx]='________';return `Fill in the blank: ${words.join(' ')}.`}
+return type==='short'?`Answer briefly: ${clean}?`:`Explain the following in detail: ${clean}.`;}
+function generate(){let source=$('content').value.trim();if(!source){alert('Please paste chapter notes first.');return}let sentences=sentencesFrom(source);if(!sentences.length){alert('Please enter a few complete sentences so the generator can create questions.');return}
+let types=[];if($('mcq').checked)types.push('mcq');if($('short').checked)types.push('short');if($('long').checked)types.push('long');if($('fill').checked)types.push('fill');if(!types.length){alert('Select at least one question type.');return}
+let total=Math.max(1,Math.min(200,Number($('totalMarks').value)||20));let count=Math.min(sentences.length*types.length,Math.max(1,Math.floor(total/2)));let qs=[];for(let i=0;i<count;i++){let type=types[i%types.length],s=sentences[Math.floor(i/types.length)%sentences.length];qs.push({type,text:makeQuestion(s,type,$('language').value),marks:type==='long'?5:type==='short'?3:1})}
+// Fit question marks to requested total using a simple draft allocation.
+let sum=qs.reduce((a,q)=>a+q.marks,0);if(sum>total){while(sum>total&&qs.length>1){let q=qs.pop();sum-=q.marks}}else if(sum<total&&qs.length){qs[0].marks+=total-sum}
+let title=escapeHTML($('paperTitle').value||'Practice Question Paper'),board=escapeHTML($('board').value),cls=escapeHTML($('className').value),subject=escapeHTML($('subject').value||'—'),chapter=escapeHTML($('chapter').value||'—'),duration=escapeHTML($('duration').value||'—');let labels=$('language').value==='hi'?{mcq:'खंड A — बहुविकल्पीय प्रश्न',short:'खंड B — लघु उत्तरीय प्रश्न',long:'खंड C — दीर्घ उत्तरीय प्रश्न',fill:'खंड D — रिक्त स्थान भरिए'}:{mcq:'Section A — Multiple Choice Questions',short:'Section B — Short Answer Questions',long:'Section C — Long Answer Questions',fill:'Section D — Fill in the Blanks'};let order=['mcq','fill','short','long'];let html=`<div class="paperhead"><h2>${title}</h2><p>SMART EXAM MAKER · DRAFT PRACTICE PAPER</p></div><div class="paper-meta"><span><b>Board:</b> ${board}</span><span><b>Class:</b> ${cls}</span><span><b>Subject:</b> ${subject}</span></div><div class="paper-meta"><span><b>Chapter:</b> ${chapter}</span><span><b>Time:</b> ${duration}</span><span><b>Maximum Marks:</b> ${total}</span></div><p><b>Instructions:</b> Answer all questions. Read each question carefully. / सभी प्रश्नों के उत्तर दें।</p>`;let n=1;
+for(let t of order){let group=qs.filter(q=>q.type===t);if(!group.length)continue;html+=`<div class="section-title">${labels[t]}</div>`;for(let q of group){html+=`<div class="q"><span class="qnum">${n++}.</span>${escapeHTML(q.text)} <span class="marks">[${q.marks} mark${q.marks>1?'s':''}]</span>${t==='mcq'?'<div style="margin:7px 0 0 22px">A. ________ &nbsp; B. ________ &nbsp; C. ________ &nbsp; D. ________</div>':t==='long'?'<div class="answerline"></div><div class="answerline"></div><div class="answerline"></div>':t==='short'?'<div class="answerline"></div>':''}</div>`}}
+html+='<p style="text-align:center;margin-top:28px;font-weight:700">— End of Question Paper —</p><p style="font-size:11px;color:#64748b">Draft generated from user-provided text. Please verify accuracy and marks.</p>';$('paperArea').innerHTML=html;$('paperArea').scrollIntoView({behavior:'smooth',block:'start'});
+}
+$('generate').onclick=generate;$('printPaper').onclick=()=>{if($('paperArea').querySelector('.empty')){alert('Generate a paper first.');return}window.print()};
+$('paperArea').addEventListener('click',()=>{});
+let installPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('installBtn').hidden=false});$('installBtn').onclick=async()=>{if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$('installBtn').hidden=true}};
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
